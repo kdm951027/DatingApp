@@ -53,7 +53,7 @@ namespace API.Controllers
             var user = await _context.Users
                 .SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
 
-            if (user == null) return Unauthorized("Invalid username: test");
+            if (user == null) return Unauthorized("Invalid username: sent from AccountController");
 
             using var hmac = new HMACSHA512(user.PasswordSalt);
 
@@ -62,7 +62,7 @@ namespace API.Controllers
             //PasswordHash is stored as byte array. so this is how to comapre them
             for (int i = 0; i < computedHash.Length; i++)
             {
-                if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid Password");
+                if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid Password: sent from AccountController");
             }
 
             return new UserDto
